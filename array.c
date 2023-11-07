@@ -20,7 +20,7 @@ int main(void)
         outarr_n(ptr, n, i);
     }
  
-    free(ptr);
+    // free(ptr);
     return 0;
 }
 
