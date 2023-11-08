@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int array_rows(int **table, int *rows, int n, int m, int i, int j);
+int matrix_n(int **table, int *rows,  int i, int j, int n, int m);
+int matrix_m(int **table, int *rows, int i, int j, int n, int m);
 
 int main(void)
 {
@@ -17,7 +18,7 @@ int main(void)
     table = calloc(n, sizeof(int*));
     rows = malloc(sizeof(int)*n);
 
-    matrix(table, rows, n, m, i, j);    
+    matrix_n(table, rows, i, j, n, m);    
     // освобождение памяти
     free(table);
     free(rows);
@@ -25,19 +26,19 @@ int main(void)
     return 0;
 }
 
-int matrix(int **table, int *rows, int n, int m, int i, int j){
-    if(i<n&&!table[i]){
+int matrix_n(int **table, int *rows, int i, int j, int n, int m){
+    if(i<n&&table[i]==NULL){
         printf("\nColumns count for row %d=", i);
         scanf("%d", &rows[i]);
         table[i] = calloc(rows[i], sizeof(int));
         int j=0;
-        matrix_table(table, rows, n, m, i, j);
+        matrix_m(table, rows, n, m, i, j);
         i++;
-        matrix(table, rows, n, m, i, j);
+        matrix_n(table, rows, n, m, i, j);
     }
-    else if(i<n&&table[i]) {
-        printf('\n');
-        matrix_table(table, rows, n, m, i, j);
+    else if(i<n&&table[i]!=NULL) {
+        printf("\n");
+        matrix_m(table, rows, n, m, i, j);
     }
     else{
         i=0;
@@ -45,14 +46,22 @@ int matrix(int **table, int *rows, int n, int m, int i, int j){
     }
     return 0;
 }
+int matrix_n_out(){
+    if (i<n){
+        printf("\n");
+        matrix_m_out();
+        matrix_n_out();
+        i++;
+    }
+}
 
-int matrix_table(int **table, int *rows, int n, int m, int i, int j) {
-    if(j<rows[i]&&!table[i][j]){
+int matrix_m(int **table, int *rows, int i, int j, int n, int m) {
+    if(j<rows[i]&&!table[i][j]==NULL){
         printf("table[%d][%d]=", i, j);
         scanf("%d", &m);
         table[i][j] = m;
     }
-    else if(j<rows[i]&&table[i][j]) {
+    else if(j<rows[i]&&table[i][j]!=NULL) {
         printf("%d \t", table[i][j]);
     }
     else{
@@ -60,3 +69,8 @@ int matrix_table(int **table, int *rows, int n, int m, int i, int j) {
     }
     return 0;
 }
+int matrix_m_out(){
+    if (i<m){
+        printf("%d \t", table[i][j]);
+    }
+};
